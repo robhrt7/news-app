@@ -1,0 +1,129 @@
+
+/*
+ * border-radius supporting vendor prefixes and
+ * augmented behavior.
+ *
+ * From nib library
+ *
+ * Examples:
+ *
+ *    border-radius: 2px 5px
+ *    border-radius: top 5px bottom 10px
+ *    border-radius: left 5px
+ *    border-radius: top left 5px
+ *    border-radius: top left 10px bottom right 5px
+ *    border-radius: top left 10px, bottom right 5px
+ *
+ */
+-apply-border-radius(pos, importance) {
+    if (length(pos) == 3) {
+        // border-radius: <top | buttom> <left | right> <n>
+        y = pos[0]
+        x = pos[1]
+
+        {'border-%s-%s-radius'% pos}: pos[2]importance
+    } else if (pos[0] in (top bottom)) {
+        // border-radius: <top | bottom> <n>
+        -apply-border-radius(pos[0]left pos[1], importance)
+        -apply-border-radius(pos[0]right pos[1], importance)
+    } else if (pos[0] in (left right)) {
+        // border-radius: <left | right> <n>
+        unshift(pos, top);
+        -apply-border-radius(pos, importance)
+        pos[0] = bottom
+        -apply-border-radius(pos, importance)
+    }
+}
+
+border-radius() {
+    pos = ()
+    augmented = false
+    importance = arguments[length(arguments) - 1] == !important ? !important:unquote('')
+
+    for args in arguments {
+        for arg in args {
+            if (arg is a 'ident') {
+                append(pos, arg)
+                augmented = true
+            } else {
+                append(pos, arg)
+                if (augmented) {
+                    -apply-border-radius(pos, importance)
+                    pos = ()
+                }
+            }
+        }
+    }
+    {'border-radius'}: pos unless augmented
+}
+
+/*
+ * Position utility from nib library
+ *
+ * Synopsis:
+ *
+ *   fixed: <pos> [n] <pos> [n]
+ *
+ * Examples:
+ *
+ *     fixed: top left
+ *     fixed: top 5px left
+ *     fixed: top left 5px
+ *     fixed: top 5px left 5px
+ *
+ */
+
+-pos(type, args) {
+    i = 0
+    position: unquote(type)
+    for j in (1..4) {
+        if (length(args) > i) {
+            {args [ i ]}: args[i + 1] is a 'unit' ? args[i += 1]:0
+        }
+        i += 1
+    }
+}
+
+fixed() {
+    -pos('fixed', arguments)
+}
+
+/*
+ * Position utility from nib library
+ *
+ * Synopsis:
+ *
+ *   absolute: <pos> [n] <pos> [n]
+ *
+ * Examples:
+ *
+ *     absolute: top left
+ *     absolute: top 5px left
+ *     absolute: top left 5px
+ *     absolute: top 5px left 5px
+ *
+ */
+
+absolute() {
+    -pos('absolute', arguments)
+}
+
+/*
+ * Position utility from nib library
+ *
+ * Synopsis:
+ *
+ *   relative: <pos> [n] <pos> [n]
+ *
+ * Examples:
+ *
+ *     relative: top left
+ *     relative: top 5px left
+ *     relative: top left 5px
+ *     relative: top 5px left 5px
+ *
+ */
+
+relative() {
+    -pos('relative', arguments)
+}

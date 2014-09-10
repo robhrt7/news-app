@@ -1,0 +1,203 @@
+@import "variables";
+@import "mixins/index";
+@import "rreset";
+
+* {
+    box-sizing: border-box;
+    }
+
+body {
+    background: #eee;
+    font: 15px Arial, Tahoma;
+    color: $color-def;
+    padding: 10px;
+
+    @media (min-width: $media-step-s) {
+        padding 0;
+        }
+    }
+
+a {
+    color: #666;
+    text-decoration: none;
+    }
+
+.app {
+    position: relative;
+    max-width: 2000px;
+    margin: 0 auto;
+    min-height: 100%;
+    }
+
+/* Base
+---------------------------------------------------------------------------------- */
+
+/* Loader
+-------------------------------------------------- */
+
+.loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, .3);
+    width: 130px;
+    height: 130px;
+    border-radius: 50em;
+    background-image: url(../i/loading-spin.svg)
+    background-size: 100px 100px;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    }
+
+/* /Loader */
+
+/* Card
+-------------------------------------------------- */
+
+$card-inner-padding = 15px;
+$card-overlay = rgba(0, 0, 0, .5);
+$card-overlay-hover = rgba(0, 0, 0, .7);
+
+.card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+    border: solid 1px #838383;
+    box-shadow: 0 1px 4px 1px #ccc;
+    padding: $card-inner-padding;
+    color: $color-invert;
+
+    a {
+        color: $color-invert;
+        }
+
+    &.__active .card_reveal,
+    .no-touch &:hover .card_reveal {
+        transform: translateY(0);
+        }
+
+    &.__active .card_title,
+    &.__active .card_reveal,
+    .no-touch &:hover .card_title,
+    .no-touch &:hover .card_reveal {
+        background: $card-overlay-hover;
+        transition: background .5s, transform .5s;
+        }
+
+    &.__active .card_bg-img,
+    .no-touch &:hover .card_bg-img {
+        transform: translateX(-25%) translateY(-5%);
+        }
+    }
+
+.card_bg {
+    overflow: hidden;
+    absolute: top -1px right -1px bottom -1px left -1px; // -1px for fixing cropped image borders in chrome
+    z-index: -1;
+    background-color: #000;
+    }
+
+.card_bg-img {
+    height: 110%;
+    transform: translateX(-20%);
+    transition: transform .7s;
+    -webkit-backface-visibility: hidden;
+    }
+
+.card_title {
+    absolute: left bottom 100%;
+    width: 100%;
+    padding: 10px $card-inner-padding;
+    background: $card-overlay;
+    transition: background .5s;
+    }
+
+.card_reveal {
+    absolute: left bottom;
+    transform: translateY(100%);
+    transition: background .5s, transform .5s ease-in-cubic;
+    background: $card-overlay;
+    padding: 0 $card-inner-padding $card-inner-padding;
+    -webkit-backface-visibility: hidden;
+    }
+
+/* /Card */
+
+/* /Base
+---------------------------------------------------------------------------------- */
+
+/* Project
+---------------------------------------------------------------------------------- */
+
+/* News list
+-------------------------------------------------- */
+
+$news-link-border-radius = 5px;
+$news-summary-lh = 1.5;
+
+.news-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    }
+
+.news-item_title {
+    font-size: 20px;
+    line-height: 1.4;
+    }
+
+.news-item_summary {
+    line-height: $news-summary-lh;
+    max-height: $news-summary-lh * 5em;
+    overflow: hidden;
+    }
+
+.news-list_item {
+    width: 100%;
+    height: 400px;
+    margin-bottom: 10px;
+
+    @media (min-width: $media-step-s) {
+        margin: 10px 1%;
+        width: 48%;
+        height: 400px;
+        }
+
+    @media (min-width: $media-step-m) {
+        margin: 10px 1%;
+        width: 23%;
+        height: 400px;
+        }
+    }
+
+.news-list_link {
+    position: relative;
+    display: inline-block;
+    margin-top: 15px;
+    background: #000;
+    padding: 8px;
+    border-radius: $news-link-border-radius;
+
+    &:before {
+        content: '';
+        absolute: top right bottom left;
+        border: solid rgba(255, 255, 255, .3) 2px;
+        border-radius: $news-link-border-radius;
+        transition: border .2s;
+        }
+
+    &:hover:before {
+        border: solid rgba(255, 255, 255, .5) 2px;
+        }
+
+    &:after {
+        color: #ccc;
+        content: ' ›››'
+        }
+    }
+
+/* /News list */
+
+/* /Project
+---------------------------------------------------------------------------------- */

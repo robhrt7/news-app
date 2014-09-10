@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>News app</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="/assets/vendor/modernizr-touch.js"></script>
+
+    <!-- build:css(.tmp) assets/css/main.css -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <!-- endbuild -->
+</head>
+<body>
+
+<div class="app js-app">
+    <div class="loader js-loading"></div>
+</div>
+
+<!-- Templates -->
+<!-- As it's simple SPA, we'll keep templates with main source HTML file -->
+
+<script type="text/template" id="news-template">
+    <div class="news">
+        <ul class="news-list js-news-list"></ul>
+    </div>
+</script>
+
+<script type="text/template" id="news-item-template">
+    <li class="news-list_item card">
+        <div class="news-item_image card_bg"><img class="card_bg-img" src="<%- image %>" alt="<%- title %>"></div>
+        <div class="card_reveal">
+            <div class="news-item_title card_title"><%- title %></div>
+            <div class="news-item_summary"><%- summary %></div>
+            <div class="news-list_item_summary"><a class="news-list_link" href="<%- url %>">Read more</a></div>
+        </div>
+    </li>
+</script>
+
+<!-- build:js assets/js/main.js -->
+<script data-main="assets/js/app" src="bower_components/requirejs/require.js"></script>
+<!-- endbuild -->
+</body>
+</html>
